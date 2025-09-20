@@ -7,9 +7,67 @@ Retificador + Filtro C — Projeto via Ábacos (Cap. 10)
 import os
 import tkinter as tk
 from tkinter import ttk
+import sys
+import importlib # Lazy imports (adiam NumPy e Matplotlib/TkAgg)
 
-# ---------- Lazy imports (adiam NumPy e Matplotlib/TkAgg) ----------
-import importlib
+import sys, os, ctypes
+from pathlib import Path
+
+def _resource_path(relpath: str) -> str:
+    """Resolve caminho no bundle (PyInstaller) ou em dev."""
+    base = getattr(sys, "_MEIPASS", Path(__file__).resolve().parent)
+    return str(Path(base) / relpath)
+
+def _read_app_version() -> str:
+    """
+    Ordem:
+    1) VERSION (bundle ou projeto)
+    2) Recurso de versão do EXE (apenas quando frozen)
+    3) 'DEV'
+    """
+    # — 1) procurar VERSION em vários lugares —
+    here = Path(__file__).resolve().parent
+    candidates = [
+        Path(_resource_path("VERSION")),                # dentro do bundle
+        Path(_resource_path(os.path.join("assets","VERSION"))),
+        here / "VERSION",                               # mesmo dir do .py
+        here.parent / "VERSION",                        # raiz do projeto (subindo 1)
+        here.parent.parent / "VERSION",                 # (subindo 2, por garantia)
+    ]
+    for p in candidates:
+        try:
+            if p.is_file():
+                v = p.read_text(encoding="utf-8").strip()
+                if v:
+                    return v
+        except Exception:
+            pass
+
+    # — 2) se estiver empacotado, ler “FileVersion” do próprio EXE —
+    if getattr(sys, "frozen", False) and os.name == "nt":
+        try:
+            GetFileVersionInfoSizeW = ctypes.windll.version.GetFileVersionInfoSizeW
+            GetFileVersionInfoW     = ctypes.windll.version.GetFileVersionInfoW
+            VerQueryValueW          = ctypes.windll.version.VerQueryValueW
+
+            exe = sys.executable
+            size = GetFileVersionInfoSizeW(exe, None)
+            if size:
+                data = ctypes.create_string_buffer(size)
+                if GetFileVersionInfoW(exe, 0, size, data):
+                    lp = ctypes.c_void_p()
+                    ln = ctypes.c_uint()
+                    if VerQueryValueW(data, u"\\VarFileInfo\\Translation", ctypes.byref(lp), ctypes.byref(ln)):
+                        arr = (ctypes.c_ushort * 2).from_address(lp.value)
+                        lang, codepage = arr[0], arr[1]
+                        sub = u"\\StringFileInfo\\%04x%04x\\FileVersion" % (lang, codepage)
+                        if VerQueryValueW(data, sub, ctypes.byref(lp), ctypes.byref(ln)):
+                            return ctypes.wstring_at(lp.value, ln.value).strip()
+        except Exception:
+            pass
+
+    # — 3) fallback —
+    return "DEV"
 
 class _LazyMod:
     """Carrega o módulo na 1ª vez que um atributo é acessado."""
@@ -340,9 +398,51 @@ def _clean_xy(x, y, x_min=None, x_max=None, yabs=1e4):
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Retificador + Filtro C — Ábacos")
+
+        # ---- título com versão ----
+        self.version = _read_app_version()
+        self.title(f"Retificador + Filtro C — Ábacos (v{self.version})")
+
+        # ---- ícone da janela (procura em dev e no bundle one-file) ----
+        import sys
+        here = os.path.dirname(os.path.abspath(__file__))   # ...\projeto\src
+        root = os.path.dirname(here)                        # ...\projeto
+
+        candidates = []
+        # quando congelado (PyInstaller one-file): arquivos extraídos em _MEIPASS
+        if getattr(sys, "frozen", False):
+            base = getattr(sys, "_MEIPASS", here)
+            candidates += [
+                os.path.join(base, "assets", "icon.ico"),
+                os.path.join(base, "icon.ico"),
+            ]
+        # em desenvolvimento (rodando do source) e fallbacks gerais
+        candidates += [
+            os.path.join(root, "assets", "icon.ico"),  # onde seu ícone realmente está
+            os.path.join(here, "assets", "icon.ico"),
+            os.path.join(root, "icon.ico"),
+            os.path.join(here, "icon.ico"),
+        ]
+
+        for p in candidates:
+            if os.path.exists(p):
+                try:
+                    # Windows: .ico direto
+                    self.iconbitmap(default=p)
+                    break
+                except Exception:
+                    # último recurso: tentar como PhotoImage (se o Tk aceitar .ico)
+                    try:
+                        _img = tk.PhotoImage(file=p)
+                        self.wm_iconphoto(True, _img)
+                        break
+                    except Exception:
+                        pass
+
+        # ---- dimensões da janela ----
         self.geometry("1200x800")
-        # Carrega Matplotlib/Tk só agora (1ª vez que realmente precisamos dele)
+
+        # ---- carrega Matplotlib/Tk na 1ª necessidade ----
         (self._plt,
         self._FigureCanvasTkAgg,
         self._NavigationToolbar2Tk,
@@ -352,8 +452,8 @@ class App(tk.Tk):
         self._warn_var = tk.StringVar(value="")
         self._warnings = []          # acumula mensagens desta execução
         self._banner = ttk.Label(self, textvariable=self._warn_var,
-                                 background="#FFF3CD", foreground="#8A6D3B",
-                                 anchor="w", padding=(8,4))
+                                background="#FFF3CD", foreground="#8A6D3B",
+                                anchor="w", padding=(8,4))
         # escondido inicialmente
         self._banner_visible = False
 
