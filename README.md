@@ -80,8 +80,6 @@ python src\rectifier_abacos_gui.py
   * name the binary `RectifierAbacos_v1.0.exe`, and
   * embed `1.0` into the EXE’s Windows version metadata.
 
-
-
 ---
 
 # Single-Phase Full-Wave Rectifier with Capacitor Filter — Complete Theory
@@ -92,33 +90,35 @@ python src\rectifier_abacos_gui.py
 ## 0) Circuit, symbols, and assumptions
 
 **Bridge D1–D4 → C → R**.
-Input: $v_{ac}(t)=V_{pk}\sin(\omega t)$ with $V_{pk}=\sqrt{2}\,V_{rms}$.
+Input: $v_{ac}(t)=V_{pk}\sin(\omega t)$ with $V_{pk}=\sqrt{2}\,V_{\mathrm{rms}}$.
 Capacitor voltage: $v_C(t)$; its minimum per cycle: $V_{C\min}$.
 
 **Key normalized parameters**
 
 * Ripple ratio (also the x-axis of the abaci):
 
-  $$
-  x=\frac{V_{C\min}}{V_{pk}}\in(0,1),\qquad
-  \Delta V_{pp}\approx V_{pk}-V_{C\min}=V_{pk}(1-x).
-  $$
+$$
+x=\frac{V_{C\min}}{V_{pk}}\in(0,1),\qquad
+\Delta V_{pp}\approx V_{pk}-V_{C\min}=V_{pk}(1-x).
+$$
+
 * Adimensional group:
 
-  $$
-  Y=\omega RC.
-  $$
+$$
+Y=\omega RC.
+$$
+
 * Angles (one electrical cycle, $\theta=\omega t$):
   $\theta_1$ = **start of next recharge** (diodes turn on),
   $\theta_2$ = **end of recharge** (input current goes to zero),
   $\theta_3$ = start of the previous ramp. Common definitions:
 
-  $$
-  \alpha=\tfrac{3\pi}{2}-\theta_1,\quad
-  \beta=\theta_2-\tfrac{\pi}{2},\quad
-  \gamma=\theta_1-\theta_2,\quad
-  \alpha+\beta+\gamma=\pi.
-  $$
+$$
+\alpha=\tfrac{3\pi}{2}-\theta_1,\quad
+\beta=\theta_2-\tfrac{\pi}{2},\quad
+\gamma=\theta_1-\theta_2,\quad
+\alpha+\beta+\gamma=\pi.
+$$
 
 **Assumptions:** ideal diodes, **no** line inductance, resistive load, steady state.
 
@@ -131,14 +131,14 @@ Let $\theta=\omega t$.
 1. **S1 – Recharge** $(\theta_3\le \theta\le \pi/2)$
    Diodes conduct; the source **clamps** $v_C$: $v_C=V_{pk}\sin\theta$.
 
-   $$
-   i_C=C\frac{dv_C}{dt}=\omega C V_{pk}\cos\theta,\qquad
-   i_R=\frac{v_C}{R}=\frac{V_{pk}}{R}\sin\theta,
-   $$
+$$
+i_C=C\frac{dv_C}{dt}=\omega C V_{pk}\cos\theta,\qquad
+i_R=\frac{v_C}{R}=\frac{V_{pk}}{R}\sin\theta,
+$$
 
-   $$
-   i_{\text{line}}=i_1=i_C+i_R.
-   $$
+$$
+i_{\text{line}}=i_1=i_C+i_R.
+$$
 
 2. **S2 – Conduction tail** $(\pi/2<\theta<\theta_2)$
    $i_C$ becomes negative and exactly **cancels** $i_R$ at $\theta=\theta_2$ ⇒ diodes **turn off**.
@@ -158,7 +158,7 @@ During S1/S2, take $i_R\approx V_{pk}/R$ **constant**. The zero-current conditio
 $$
 0=\omega C V_{pk}\cos\theta_2+\frac{V_{pk}}{R}
 \quad\Rightarrow\quad
-\boxed{\ \cos\theta_2\ \approx\ -\frac{1}{Y}\ }\qquad(Y>1).
+\boxed{\cos\theta_2\approx-\frac{1}{Y}}\qquad(Y>1).
 $$
 
 ### 2.2 **Exact** boundary (detailed model)
@@ -168,13 +168,13 @@ Using the true $i_R=\tfrac{V_{pk}}{R}\sin\theta$ at $i_1(\theta_2)=0$:
 $$
 \omega C V_{pk}\cos\theta_2+\frac{V_{pk}}{R}\sin\theta_2=0
 \ \Rightarrow\
-\boxed{\ \tan\theta_2=-Y,\ \ \theta_2\in(\tfrac{\pi}{2},\pi)\ }.
+\boxed{\tan\theta_2=-Y,\ \ \theta_2\in(\tfrac{\pi}{2},\pi)}.
 $$
 
 Other geometric relations:
 
 $$
-\boxed{\ \theta_1=\pi+\arcsin(x)\ },\qquad
+\boxed{\theta_1=\pi+\arcsin(x)},\qquad
 \alpha=\tfrac{\pi}{2}-\arcsin x,\quad
 \beta=\tfrac{\pi}{2}-\arctan Y,\quad
 \gamma=\pi-\alpha-\beta.
@@ -189,15 +189,15 @@ $$
 Energy **delivered by $C$** to the load every **half cycle**:
 
 $$
-\boxed{\,W_C=\tfrac{1}{2}C\left(V_{pk}^2-V_{C\min}^2\right)\,}.
+\boxed{W_C=\tfrac{1}{2}C\left(V_{pk}^2-V_{C\min}^2\right)}.
 $$
 
 Steady state ⇒ match load energy for the same interval:
 
 $$
-\boxed{\,W_C=\frac{P_{out}}{2f}\,}
+\boxed{W_C=\frac{P_{out}}{2f}}
 \quad\Rightarrow\quad
-\boxed{\,C=\frac{P_{out}}{f\left(V_{pk}^2-V_{C\min}^2\right)}\,}.
+\boxed{C=\frac{P_{out}}{f\left(V_{pk}^2-V_{C\min}^2\right)}}.
 $$
 
 > Excellent for **fast capacitor sizing** from $P_{out}$, $f$, and the chosen ripple $x=V_{C\min}/V_{pk}$.
@@ -208,31 +208,33 @@ Split the transferred charge into the **three slices** S1–S3 (see the classic 
 
 * **S1** (recharge slice):
 
-  $$
-  \boxed{S_1=\omega C V_{pk}\left(1-\cos\alpha\right)}.
-  $$
+$$
+\boxed{S_1=\omega C V_{pk}\left(1-\cos\alpha\right)}.
+$$
+
 * **S2** (load discharge while diodes are off):
 
-  $$
-  \boxed{S_2=\frac{\omega RC\,V_{pk}\cos\beta}{R}\left[\,1-e^{\gamma/Y}\right]}.
-  $$
+$$
+\boxed{S_2=\frac{\omega RC V_{pk}\cos\beta}{R}\left(1-e^{\gamma/Y}\right)}.
+$$
+
 * **S3** (small triangular correction around $\theta_2$):
 
-  $$
-  \boxed{S_3=\frac{\beta\,V_{pk}\cos\beta}{2R}}.
-  $$
+$$
+\boxed{S_3=\frac{\beta V_{pk}\cos\beta}{2R}}.
+$$
 
 Charge balance over a half cycle is **zero**: $S_1-|S_2|-|S_3|=0$. Gathering terms:
 
 $$
-\boxed{\,Y\,(1-\cos\alpha)\;-\;\frac{\beta\cos\beta}{2}\;-\;Y\cos\beta\left[1-e^{\gamma/Y}\right]=0\,}
+\boxed{Y (1-\cos\alpha)-\frac{\beta\cos\beta}{2}-Y\cos\beta\left(1-e^{\gamma/Y}\right)=0}
 $$
 
 with $\alpha,\beta,\gamma$ functions of $x$ and $Y$ as above.
 For a **given $x$**, solve **numerically** to obtain the **abacus**:
 
 $$
-\boxed{\,Y=\omega RC=f(x)\,}\quad\text{(Fig. 10.9)}.
+\boxed{Y=\omega RC=f(x)}\quad\text{(Fig. 10.9)}.
 $$
 
 Then compute **$C=\dfrac{Y}{\omega R}$**.
@@ -240,7 +242,7 @@ Then compute **$C=\dfrac{Y}{\omega R}$**.
 > **Which route to prefer?**
 >
 > * **Energy one-liner**: quick $C$ sizing from $P_{out}$.
-> * **Areas/angles**: ensures **coherence** with conduction window, peaks, $I_{C,\mathrm{rms}}$, THD, FP — and underlies the **abaci**.
+> * **Areas/angles**: ensures **coherence** with conduction window, peaks, $I_{C,\mathrm{rms}}$, THD, PF — and underlies the **abaci**.
 
 ---
 
@@ -249,7 +251,7 @@ Then compute **$C=\dfrac{Y}{\omega R}$**.
 A practical “equivalent charge” estimate for the peak is
 
 $$
-\boxed{\,I_p\ \approx\ \frac{C\,\Delta V}{t_c}\,},\qquad \Delta V\approx V_{pk}-V_{C\min}.
+\boxed{I_p\approx\frac{C\Delta V}{t_c}},\qquad \Delta V\approx V_{pk}-V_{C\min}.
 $$
 
 > The book notes the **actual peak** (cosine/triangular-shaped) is typically **≈ 2× higher** than the simple **rectangular** estimate for the same $\Delta Q$. Use this as a **sizing margin** for diodes/transformer.
@@ -265,7 +267,7 @@ With the **exact** boundary, the conduction time follows directly from $\theta_2
 Model the recharge as a rectangle of height $I_p$ and width $t_c$:
 
 $$
-\boxed{\,I_{C,\mathrm{rms}}\ \approx\ I_p\,\sqrt{t_c\,f}\,}.
+\boxed{I_{C\mathrm{rms}}\approx I_p\sqrt{t_c f}}.
 $$
 
 > Good for **order-of-magnitude**. Remember the **≈2×** factor for the **true peak**.
@@ -275,17 +277,16 @@ $$
 Split the RMS into **conduction** and **block** contributions and normalize by $V_{pk}/R$:
 
 $$
-\boxed{\left(\frac{R\,I_{C,\mathrm{rms}}}{V_{pk}}\right)^2=
-\underbrace{\frac{Y^2}{\pi}\!\int_{\theta_3}^{\theta_2}\!\cos^2\theta\,d\theta}_{\text{conduction}}
-\;+\;
-\underbrace{\frac{\cos^2\beta}{\pi}\!\int_{0}^{\gamma}\!e^{2\theta/Y}\,d\theta}_{\text{block}}}\!.
+\boxed{\left(\frac{R I_{C\mathrm{rms}}}{V_{pk}}\right)^2=
+\underbrace{\frac{Y^2}{\pi}\int_{\theta_3}^{\theta_2}\cos^2\theta d\theta}_{\text{conduction}}
++
+\underbrace{\frac{\cos^2\beta}{\pi} \int_{0}^{\gamma}e^{2\theta/Y} d\theta}_{\text{block}}}.
 $$
 
 With
 
 $$
-\boxed{\ \theta_1=\pi+\arcsin x,\quad \theta_2=\pi+\arctan(-Y),\quad
-\theta_3=\arcsin x\ },
+\boxed{\theta_1=\pi+\arcsin x,\quad \theta_2=\pi+\arctan(-Y),\quad \theta_3=\arcsin x},
 $$
 
 and the closed form
@@ -297,9 +298,9 @@ $$
 you finally get the **normalized** value
 
 $$
-\boxed{\ \frac{R\,I_{C,\mathrm{rms}}}{V_{pk}}=F(Y)\ }
+\boxed{\frac{R\,I_{C,\mathrm{rms}}}{V_{pk}}=F(Y)}
 \quad\Rightarrow\quad
-\boxed{\,I_{C,\mathrm{rms}}=\frac{V_{pk}}{R}\,F(Y)\,}.
+\boxed{I_{C,\mathrm{rms}}=\frac{V_{pk}}{R}\,F(Y)}.
 $$
 
 The book plots $F(Y)$ in **Fig. 10.10**. This is essential for **ESR/thermal** checks.
@@ -318,20 +319,20 @@ $$
 Half-wave symmetry ⇒ only **odd harmonics**. Using the integrals
 
 $$
-A1=\int_{\theta_3}^{\theta_2}\!\cos\theta\,\cos(n\theta)\,d\theta,\quad
-A2=\int_{\theta_3}^{\theta_2}\!\sin(n\theta)\,d\theta,
+A1=\int_{\theta_3}^{\theta_2}\cos\theta\,\cos(n\theta) d\theta,\quad
+A2=\int_{\theta_3}^{\theta_2}\sin(n\theta) d\theta,
 $$
 
 $$
-B1=\int_{\theta_3}^{\theta_2}\!\cos\theta\,\sin(n\theta)\,d\theta,\quad
-B2=\int_{\theta_3}^{\theta_2}\!\sin\theta\,\sin(n\theta)\,d\theta,
+B1=\int_{\theta_3}^{\theta_2}\cos\theta \sin(n\theta) d\theta,\quad
+B2=\int_{\theta_3}^{\theta_2}\sin\theta \sin(n\theta) d\theta,
 $$
 
 and the book’s normalization:
 
 $$
 \bar a_n=Y\cdot A1+A2,\qquad \bar b_n=Y\cdot B1+B2,\qquad
-c_n=\sqrt{\bar a_n^2+\bar b_n^2},
+c_n=\sqrt{\bar a_n^2+\bar b_n^2}.
 $$
 
 you obtain:
@@ -341,7 +342,7 @@ you obtain:
 * **Advance angle** $\varphi_1(x)$ — Fig. **10.28** (fundamental current **leads** the voltage).
 * **Power factor (PF)** — Fig. **10.29** (**decreases** as $x$ increases).
 
-**Qualitative takeaway**: larger $C$ ⇒ **better DC** but **sharper line current** ⇒ **higher THD**, **lower PF**, capacitive $\varphi_1$.
+**Qualitative takeaway**: larger $C$ ⇒ **better DC** mas **corrente de linha mais aguda** ⇒ **THD↑**, **PF↓**, $\varphi_1$ capacitiva.
 
 ---
 
@@ -349,28 +350,32 @@ you obtain:
 
 ### (A) **Energy one-liner** (you know $P_{out}$)
 
-1. Specify $V_{rms}$, $f$, $P_{out}$ and target $x=V_{C\min}/V_{pk}$ (or $\Delta V_{pp}$).
+1. Specify $V_{rms}$, $f$, $P_{out}$ e alvo $x=V_{C\min}/V_{pk}$ (ou $\Delta V_{pp}$).
 2. $V_{pk}=\sqrt{2}V_{rms}$, $x=1-\Delta V_{pp}/V_{pk}$.
-3. $$
-   \boxed{\,C=\dfrac{P_{out}}{f\left(V_{pk}^2-V_{C\min}^2\right)}\,}.
-   $$
-4. Sanity-check with the conduction window (quick or exact) and with $I_p$.
+
+$$
+\boxed{C=\dfrac{P_{out}}{f\left(V_{pk}^2-V_{C\min}^2\right)}}.
+$$
+
+4. Sanity-check com a janela de condução (rápida ou exata) e com $I_p$.
 
 ### (B) **Full abacus flow** (you know $R$ or $I$)
 
-1. Specify $V_{rms}$, $f$, $R$ (or $I$) and target $x$.
-2. Read $Y=\omega RC$ from **$Y=f(x)$** (Fig. 10.9) ⇒
+1. Especifique $V_{rms}$, $f$, $R$ (ou $I$) e $x$.
+2. Leia $Y=\omega RC$ de **$Y=f(x)$** (Fig. 10.9) ⇒
 
-   $$
-   \boxed{\,C=\dfrac{Y}{\omega R}\,}.
-   $$
-3. With the **same $Y$**, use **Fig. 10.10** to get
+$$
+\boxed{C=\dfrac{Y}{\omega R}}.
+$$
 
-   $$
-   \boxed{\,I_{C,\mathrm{rms}}=\dfrac{V_{pk}}{R}\,F(Y)\,}.
-   $$
-4. If needed, use Figs. **10.27–10.29** at your chosen $x$ for **THD / $\varphi_1$ / PF**.
-5. Check **peak** stresses in diodes/transformer (remember **≈2×** vs rectangular estimate).
+3. Com o **mesmo $Y$**, use **Fig. 10.10** para obter
+
+$$
+\boxed{I_{C,\mathrm{rms}}=\dfrac{V_{pk}}{R} F(Y)}.
+$$
+
+4. Se preciso, use Figs. **10.27–10.29** no seu $x$ para **THD / $\varphi_1$ / PF**.
+5. Verifique picos em diodos/trafo (lembre do **≈2×** vs retangular).
 
 ---
 
@@ -386,13 +391,13 @@ you obtain:
 ## 9) Quick formula sheet
 
 * $x=\dfrac{V_{C\min}}{V_{pk}}$, $Y=\omega RC$.
-* $\theta_1=\pi+\arcsin x$, **exact** $\tan\theta_2=-Y$; **quick** $\cos\theta_2\approx-1/Y$.
+* $\theta_1=\pi+\arcsin x$, **exato** $\tan\theta_2=-Y$; **rápido** $\cos\theta_2\approx-1/Y$.
 * $\alpha=\tfrac{\pi}{2}-\arcsin x,\ \beta=\tfrac{\pi}{2}-\arctan Y,\ \gamma=\pi-\alpha-\beta$.
 * **Capacitor from energy**: $\displaystyle C=\dfrac{P_{out}}{f\left(V_{pk}^2-V_{C\min}^2\right)}$.
-* **Capacitor from abacus**: read $Y(x)$ ⇒ $C=\dfrac{Y}{\omega R}$.
+* **Capacitor from abacus**: leia $Y(x)$ ⇒ $C=\dfrac{Y}{\omega R}$.
 * **Capacitor RMS**: $\displaystyle \frac{R\,I_{C,\mathrm{rms}}}{V_{pk}}=F(Y)$ (Fig. 10.10).
-* **Peak estimate**: $I_p\approx\dfrac{C\,\Delta V}{t_c}$ (**true peak ≈ 2×** rectangular).
-* **Slice current**: $i_1(\theta)=\omega C V_{pk}\cos\theta+\dfrac{V_{pk}}{R}\sin\theta$ within $[\theta_3,\theta_2]$.
+* **Peak estimate**: $I_p\approx\dfrac{C\,\Delta V}{t_c}$ (**true peak ≈ 2×** retangular).
+* **Slice current**: $i_1(\theta)=\omega C V_{pk}\cos\theta+\dfrac{V_{pk}}{R}\sin\theta$ dentro de $[\theta_3,\theta_2]$.
 
 ---
 
@@ -427,11 +432,11 @@ Closed relations used throughout (from the geometry of Fig. 10.21):
 
 $$
 \begin{aligned}
-&\frac{V_{C\min}}{V_{Lp}} = \sin\!\bigl(\theta_1 - \tfrac{\pi}{3}\bigr), &&\Rightarrow\quad 
-\theta_1 = \tfrac{\pi}{3} + \sin^{-1}\!\Bigl(\tfrac{V_{C\min}}{V_{Lp}}\Bigr), \\
+&\frac{V_{C\min}}{V_{Lp}} = \sin\bigl(\theta_1 - \tfrac{\pi}{3}\bigr), &&\Rightarrow\quad 
+\theta_1 = \tfrac{\pi}{3} + \sin^{-1}\Bigl(\tfrac{V_{C\min}}{V_{Lp}}\Bigr), \\
 &\theta_2 = \pi + \tan^{-1}(-\omega RC), \\
-&\theta_3 = \sin^{-1}\!\Bigl(\tfrac{V_{C\min}}{V_{Lp}}\Bigr), \\
-&\alpha = \tfrac{5\pi}{6} - \theta_1 = \tfrac{\pi}{2} - \sin^{-1}\!\Bigl(\tfrac{V_{C\min}}{V_{Lp}}\Bigr), \\
+&\theta_3 = \sin^{-1}\Bigl(\tfrac{V_{C\min}}{V_{Lp}}\Bigr), \\
+&\alpha = \tfrac{5\pi}{6} - \theta_1 = \tfrac{\pi}{2} - \sin^{-1}\Bigl(\tfrac{V_{C\min}}{V_{Lp}}\Bigr), \\
 &\beta = \tfrac{\pi}{2} + \tan^{-1}(-\omega RC), \qquad
 \gamma = \tfrac{\pi}{3} - \alpha - \beta .
 \end{aligned}
@@ -440,7 +445,7 @@ $$
 > Rule-of-thumb boundary: the special case **γ = 0** (i.e., no blocking gap inside a sector) happens at
 > `ωRC ≃ 1.73` and `V_Cmin/V_Lp ≃ 0.87`.
 > Equivalently, for design checks:
-> $R \le \frac{1.73}{\omega C}.$
+> $R \le \dfrac{1.73}{\omega C}.$
 
 ---
 
@@ -465,21 +470,19 @@ This repeats six times per mains period (6-pulse rectification). Compared with s
 Within each **60°** sector the source must replenish the energy that the load removed while the diodes were off. From Fig. 10.18 (and Sec. 10.6.B), the **energy delivered to the capacitor each 60° interval** is
 
 $$
-E_\text{sec} = \tfrac{1}{2} C \,\bigl( V_{Lp}^2 - V_{C\min}^2 \bigr).
+E_\text{sec} = \tfrac{1}{2} C \bigl( V_{Lp}^2 - V_{C\min}^2 \bigr).
 $$
 
 Over one mains period there are **six** such intervals. Equating **energy provided by the source** to **energy dissipated by the load**:
 
 $$
-6 \cdot \tfrac{1}{2} C \,\bigl( V_{Lp}^2 - V_{C\min}^2 \bigr) \;=\; \frac{P_o}{f}.
+6 \cdot \tfrac{1}{2} C \bigl( V_{Lp}^2 - V_{C\min}^2 \bigr) = \frac{P_o}{f}.
 $$
 
 Therefore,
 
 $$
-\boxed{ \;
-C \;=\; \frac{P_o}{6\,f\,(V_{Lp}^2 - V_{C\min}^2)} \;
-}
+\boxed{C = \frac{P_o}{6 f (V_{Lp}^2 - V_{C\min}^2)}}
 \qquad\text{(energy method, 6-pulse)}
 $$
 
@@ -487,7 +490,7 @@ This is the three-phase counterpart of the single-phase “difference-of-squares
 If you prefer to parametrize by `ρ = V_Cmin/V_Lp`:
 
 $$
-C \;=\; \frac{P_o}{6\,f\,V_{Lp}^2\,(1 - ρ^2)} .
+C = \frac{P_o}{6\ f V_{Lp}^2 (1 - \rho^2)} .
 $$
 
 > Tip – If you already chose `R` and the ripple ratio `ρ`, you can also use
@@ -500,10 +503,7 @@ $$
 A more precise model (Sec. 10.6.D) tracks **three** sub-intervals inside each 60° sector (`α, β, γ`). Charge conservation over the sector leads to the implicit **nonlinear** equation (tri-phase analogue of the single-phase one):
 
 $$
-\boxed{ \;
-\omega RC\,(1-\cos\alpha) \;-\; \frac{\beta\cos\beta}{2} \;-\; \omega RC \,\cos\beta \,\Bigl[1 - e^{(\theta_1-\theta_2)/(\omega RC)}\Bigr] \;=\; 0
-\;}
-\tag{★}
+\boxed{\omega RC (1-\cos\alpha)-\frac{\beta\cos\beta}{2}-\omega RC \cos\beta \Bigl(1 - e^{(\theta_1-\theta_2)/(\omega RC)}\Bigr)=0}
 $$
 
 with the angle ties listed in Sec. 1 and `γ = θ_1 - θ_2 = π/3 - α - β`.
@@ -512,7 +512,7 @@ Solving (★) for `Y = ωRC` as a function of `ρ = V_Cmin/V_Lp` produces the **
 * As `ρ → 0.98`, required `Y` (hence **C**) grows steeply.
 * The point `ρ ≃ 0.87` corresponds to `Y ≃ 1.73` (the **γ = 0** boundary).
 
-In code or a spreadsheet, (★) is easily solved with a 1-D root finder (`brentq/newton`).
+In code or a spreadsheet, is easily solved with a 1-D root finder (`brentq/newton`).
 
 ---
 
@@ -521,31 +521,26 @@ In code or a spreadsheet, (★) is easily solved with a 1-D root finder (`brentq
 From the geometry:
 
 $$
-\alpha = \cos^{-1}\!\Bigl(\tfrac{V_{C\min}}{V_{Lp}}\Bigr), 
+\alpha = \cos^{-1}\Bigl(\tfrac{V_{C\min}}{V_{Lp}}\Bigr), 
 \qquad \Delta t_\text{cond} = \frac{\alpha}{\omega}.
 $$
 
 * **Capacitor peak recharge current** (at `θ≈θ1`):
 
 $$
-\boxed{ \;
-i_{CP} \;=\; \omega C\,V_{Lp}\,\sin \alpha 
-\;=\; \omega C\,\sqrt{V_{Lp}^2 - V_{C\min}^2}
-\;}
+\boxed{i_{CP} = \omega C V_{Lp} \sin \alpha = \omega C \sqrt{V_{Lp}^2 - V_{C\min}^2}}
 $$
 
 * **Resistive current peak** at the top of the sector:
 
 $$
-i_R^\text{pk} \;=\; \frac{V_{Lp}}{R}.
+i_R^\text{pk} = \frac{V_{Lp}}{R}.
 $$
 
 * **Input line peak current** (useful for diode/bridge surge checking):
 
 $$
-\boxed{ \;
-i_p \;\approx\; i_{CP} + i_R^\text{pk}
-\;}
+\boxed{i_p \approx i_{CP} + i_R^\text{pk}}
 $$
 
 ---
@@ -556,17 +551,17 @@ Split the RMS calculation in the two conducting sub-intervals within the sector 
 
 $$
 \begin{aligned}
-I_{C1,\text{ef}}^2 &= \frac{(\omega RC)^2}{\pi}\,\int_{\theta_3}^{\theta_2}\cos^2\!θ\,dθ, \\
-I_{C2,\text{ef}}^2 &= \frac{\cos^2\!β}{\pi}\,\int_{0}^{\theta_1-\theta_2} e^{\tfrac{2θ}{\omega RC}}\,dθ, \\
-I_{C,\text{ef}}    &= \frac{I_{C,\text{ef}}^{\text{(line)}}\,R}{V_{Lp}} \quad\text{(normalization used in Fig. 10.24)}.
+I_{C1,\text{ef}}^2 &= \frac{(\omega RC)^2}{\pi}\int_{\theta_3}^{\theta_2}\cos^2\theta d\theta, \\
+I_{C2,\text{ef}}^2 &= \frac{\cos^2\beta}{\pi}\int_{0}^{\theta_1-\theta_2} e^{\tfrac{2\theta}{\omega RC}} d\theta, \\
+I_{C,\text{ef}}    &= \frac{I_{C\text{ef}}^{\text{(line)}} R}{V_{Lp}} \quad\text{(normalization used in Fig. 10.24)}.
 \end{aligned}
 $$
 
 Using those expressions yields the parametric curve of **Fig. 10.24**, which gives the normalized RMS:
 
 $$
-\boxed{\;\; \frac{R\,I_{C,\text{ef}}}{V_{Lp}} = f(\,\omega RC\,) \;\;}
-\quad\Rightarrow\quad I_{C,\text{ef}} = \frac{V_{Lp}}{R}\,f(\omega RC).
+\boxed{\frac{R I_{C,\text{ef}}}{V_{Lp}} = f(\omega RC)}
+\quad\Rightarrow\quad I_{C\text{ef}} = \frac{V_{Lp}}{R} f(\omega RC).
 $$
 
 ### Special closed form (very useful): case **γ = 0**
@@ -574,7 +569,7 @@ $$
 When `γ = 0` (i.e., `ωRC ≃ 1.73`, `ρ ≃ 0.87`), integration simplifies to
 
 $$
-\boxed{ \; I_{C,\text{ef}} \;\approx\; 0.30\,\omega\,C\,V_{Lp} \;}
+\boxed{I_{C,\text{ef}} \approx 0.30\,\omega\,C\,V_{Lp}}
 $$
 
 — a remarkably accurate shortcut for quick ripple-current rating of **C**.
@@ -586,31 +581,31 @@ $$
 Define the line current in phase-**a** during its sector (Fig. 10.30):
 
 $$
-i_a(θ) = \omega C V_p \cos θ + \frac{V_p}{R}\sin θ,\qquad θ\in(\theta_3,\theta_2),
+i_a(\theta) = \omega C V_p \cos \theta + \frac{V_p}{R}\sin \theta,\qquad \theta\in(\theta_3 \theta_2),
 $$
 
 and in phase-**b** (shifted by −π/3):
 
 $$
-i_b(θ) = \omega C V_p \cos\!\bigl(θ-\tfrac{\pi}{3}\bigr) + \frac{V_p}{R}\sin\!\bigl(θ-\tfrac{\pi}{3}\bigr),
+i_b(\theta) = \omega C V_p \cos\bigl(\theta-\tfrac{\pi}{3}\bigr) + \frac{V_p}{R}\sin\bigl(\theta-\tfrac{\pi}{3}\bigr),
 $$
 
 (similar for phase-**c**). Over one period the waveform has **half-wave symmetry**, hence only **odd** harmonics. The Fourier coefficients are evaluated over the two conducting sub-intervals of each phase. Using the book’s normalization,
 
 $$
-\bar a_n = \frac{\pi R}{2V}\,a_n, 
+\bar a_n = \frac{\pi R}{2V} a_n, 
 \qquad
-\bar b_n = \frac{\pi R}{2V}\,b_n,
+\bar b_n = \frac{\pi R}{2V} b_n,
 \qquad 
 \bar c_n = \sqrt{\bar a_n^2 + \bar b_n^2}.
 $$
 
 From these, the following **abaci** are read (Figs. 10.31–10.34) as functions of `ρ = V_Cmin/V_p`:
 
-* **Harmonic amplitudes** `\bar c_n` for `n = 1,5,7,11,13,17` (Fig. 10.31).
+* **Harmonic amplitudes** $\bar c_n$ for $n = 1,5,7,11,13,17$ (Fig. 10.31).
 * **THD** of the line current (up to 41st harmonic) increases as ripple is reduced (Fig. 10.32).
-* **Fundamental phase advance** `φ` (current leads voltage) has a broad maximum around `ρ≈0.89` and then decreases (Fig. 10.33).
-* **Power factor** `FP` degrades as `ρ → 1` (Fig. 10.34). Typical values: with `ρ≈0.90`, `FP≈0.7`.
+* **Fundamental phase advance** $\phi$ (current leads voltage) has a broad maximum around $\rho\approx0.89$ and then decreases (Fig. 10.33).
+* **Power factor** $FP$ degrades as $\rho \to 1$ (Fig. 10.34). Typical values: with $\rho\approx0.90$, $FP\approx0.7$.
 
 **Takeaways.** Compared with single-phase, the 6-pulse rectifier has **much lower output ripple** for the same C, and exhibits **higher PF** for the same ripple target, but the input current still has significant harmonics (n = 5, 7, 11, …).
 
@@ -620,7 +615,7 @@ From these, the following **abaci** are read (Figs. 10.31–10.34) as functions 
 
 1. **Specs.** Choose mains `f` and `V_Lef`, load spec (`P_o` or `R`), and ripple target `ρ = V_Cmin/V_Lp`. Compute `V_Lp = √2·V_Lef`.
 2. **First C estimate (energy method).**
-   $C = \dfrac{P_o}{6 f (V_{Lp}^2 - V_{C\min}^2)} = \dfrac{P_o}{6 f V_{Lp}^2 (1-ρ^2)}.$
+   $C = \dfrac{P_o}{6 f (V_{Lp}^2 - V_{C\min}^2)} = \dfrac{P_o}{6 f V_{Lp}^2 (1-\rho^2)}.$
 3. **Refine with abacus or solver.**
    Pick `Y = ωRC` from **Fig. 10.22** (or solve (★)). Then **reconcile** with your `R` by setting `C = Y/(ωR)`. Iterate with step 2 if needed to hit the exact `ρ`.
 4. **Angles.**
@@ -678,7 +673,7 @@ Using the **energy method**:
 
 $$
 C = \frac{P_o}{6 f (V_{Lp}^2 - V_{C\min}^2)}
-  = \frac{1800}{6·60·(535^2 - 485^2)} \;\text{F}.
+  = \frac{1800}{6\cdot60\cdot(535^2 - 485^2)} \ \text{F}.
 $$
 
 Angles: `α = arccos(485/535) ≃ 25°`, so the **conduction time** is `Δt = α/ω ≃ 1.17 ms`.
